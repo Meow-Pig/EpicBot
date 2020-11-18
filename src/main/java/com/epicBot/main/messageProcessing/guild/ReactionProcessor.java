@@ -1,20 +1,15 @@
 package com.epicBot.main.messageProcessing.guild;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ReactionProcessor {
 
 
-    //TODO: Change both of these to be better and work off of number of reactions
     public void processReaction(GenericMessageReactionEvent event){
         System.out.println("Reaction");
         Message m = event.retrieveMessage().complete();

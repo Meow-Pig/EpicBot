@@ -14,6 +14,9 @@ public class Main {
     //Main.java [token] [key]
     //key is what will be used as a command prefix. like "/" or "!" or ">"
     //token is the token for your bot
+
+    //If you are using an ide like IntelliJ Eclipse or VScode there should be an option to set the arguments when you run it.
+    //Set the arguments parameter to "[token] [key]"
     public static void main(String[] args){
 
         //Create processors to deal with incoming events like messages and reactions
@@ -21,6 +24,7 @@ public class Main {
         PrivateMessageProcessor pmp = new PrivateMessageProcessor();
         ReactionProcessor rp = new ReactionProcessor();
 
+        //Create JDA
         JDA jda = BuilderSetup.buildWithConfigs(args[0]);
         if (jda!=null) {
             jda.addEventListener(new customEventListener(gmp, pmp, rp));

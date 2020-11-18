@@ -5,3 +5,5 @@
 /src/main/java/com/epicBot/testing/
 /src/main/java/com/epicBot/unused/
 /.idea/
+/gradlew/
+/gradlew.bat/
