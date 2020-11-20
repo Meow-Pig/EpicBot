@@ -15,13 +15,15 @@ import java.util.Scanner;
 public class GuildMessageProcessor {
 
     String key;
-    public GuildMessageProcessor(String Key){
-        key = Key;
-    }
-
+    public GuildMessageProcessor(String Key){ key = Key; }
     public String getKey(){
         return key;
     }
+
+    private final long timeoutRoleID = 771046070721314856L;
+    private final long adminRoleID   = 762319399133642803L;
+    private final long timeoutVCID   = 763244466135367700L;
+    private final long generalVCID   = 762164204890882058L;
 
     public void process(MessageReceivedEvent event){
 
@@ -46,23 +48,23 @@ public class GuildMessageProcessor {
         if (command.endsWith("ing")) {
             channel.sendMessage(command.substring(0, command.indexOf("ing")) + "ong").queue();
         } else if (command.equals("help")) {
-            channel.sendMessage("Help command coming soon.");
+            channel.sendMessage("Help command coming soon.").queue();
         } else if (command.equals("timeout")) {
-            if (event.getMessage().getMember().getRoles().contains(event.getGuild().getRoleById(762319399133642803L))){
+            if (event.getMessage().getMember().getRoles().contains(event.getGuild().getRoleById(adminRoleID))){
                 Guild g = event.getGuild();
                 //channel.sendMessage("Command under heavy development").queue();
                 List<Member> targets = event.getMessage().getMentionedMembers();
                 targets.forEach(target -> {
                     if (target.getVoiceState().inVoiceChannel()) {
-                        if (!target.getRoles().contains(g.getRoleById(771046070721314856L))) {
-                            g.moveVoiceMember(target, g.getVoiceChannelById(763244466135367700L)).queue();
-                            g.addRoleToMember(target, g.getRoleById(771046070721314856L)).queue();
+                        if (!target.getRoles().contains(g.getRoleById(timeoutRoleID))) {
+                            g.moveVoiceMember(target, g.getVoiceChannelById(timeoutVCID)).queue();
+                            g.addRoleToMember(target, g.getRoleById(timeoutRoleID)).queue();
                             g.deafen(target, true).queue();
                             channel.sendMessage(target.getEffectiveName() + " is now in a timeout.").queue();
                         } else {
                             g.deafen(target, false).queue();
-                            g.moveVoiceMember(target, g.getVoiceChannelById(762164204890882058L)).queue();
-                            g.removeRoleFromMember(target, g.getRoleById(771046070721314856L)).queue();
+                            g.moveVoiceMember(target, g.getVoiceChannelById(generalVCID)).queue();
+                            g.removeRoleFromMember(target, g.getRoleById(timeoutRoleID)).queue();
                             channel.sendMessage(target.getEffectiveName() + " is no longer in a timeout.").queue();
                         }
                     } else {
@@ -73,16 +75,16 @@ public class GuildMessageProcessor {
                 channel.sendMessage("You do not have permission to execute this command").queue();
         } else if (command.equals("poll")) {
             //Example !poll yes:🟢 no:🔴 Should-I-make-Erik-admin?
-            ArrayList<String> args = new ArrayList<>(Arrays.asList(content.substring(6).split(" ")));
+            ArrayList<String> args = new ArrayList<>(Arrays.asList(content.substring(6).split(",")));
             EmbedBuilder eb = new EmbedBuilder()
                     .setColor(new Color(242193135))
-                    .setAuthor("Cringebot's Epic Poll Function", null, event.getJDA().getSelfUser().getAvatarUrl());
+                    .setAuthor(event.getJDA().getSelfUser().getName() + "'s Epic Poll Function", null, event.getJDA().getSelfUser().getAvatarUrl());
             args.forEach(arg -> {
                 if (arg.contains(":")) {
                     String[] a = arg.split(":");
-                    eb.addField(a[1], a[0]+":0", true);
+                    eb.addField(a[1], "**"+a[0]+":0**", true);
                 } else {
-                    eb.setDescription(arg.replace("-", " "));
+                    eb.setDescription("**" + arg.replace("-", " ") + "**");
                 }
             });
             channel.sendMessage(eb.build()).queue(message -> {
@@ -96,7 +98,7 @@ public class GuildMessageProcessor {
 
     private void processNotCommand(MessageReceivedEvent event, MessageChannel channel, String content){
 
-        if (event.getMessage().isMentioned(event.getJDA().getSelfUser())) {
+        if (event.getMessage().isMentioned(event.getJDA().getSelfUser()) && !event.getMessage().mentionsEveryone()) {
             URL url;
             try {
                 url = new URL("https://api.kanye.rest/?format=text");
