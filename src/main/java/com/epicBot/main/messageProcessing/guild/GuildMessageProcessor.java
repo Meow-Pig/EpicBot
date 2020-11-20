@@ -15,8 +15,13 @@ import java.util.Scanner;
 public class GuildMessageProcessor {
 
     String key;
-    public GuildMessageProcessor(String Key){ key = Key; }
+    public GuildMessageProcessor(String Key){
+        key = Key;
+    }
 
+    public String getKey(){
+        return key;
+    }
 
     public void process(MessageReceivedEvent event){
 

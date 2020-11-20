@@ -31,7 +31,7 @@ public class ASCIIart {
                     "/,    /`\n" +
                     "\\\\\"--\\\\";
 
-    public static String getRandomArt(){
-        return "Poop";
-    }
+    public static final String[] allASCII = {lotrPoem, smolDog};
+
+    public static String getRandomArt(){ return allASCII[Math.round((float)Math.random()*(allASCII.length-1))]; }
 }
