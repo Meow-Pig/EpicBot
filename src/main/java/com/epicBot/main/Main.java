@@ -22,10 +22,14 @@ public class Main {
     public static PrivateMessageProcessor pmp;
     public static ReactionProcessor rp;
 
+    public static String key;
+
     public static void main(String[] args) {
 
+        key = args[1];
+
         //Create processors to deal with incoming events like messages and reactions
-        gmp = new GuildMessageProcessor(args[1]);
+        gmp = new GuildMessageProcessor(key);
         pmp = new PrivateMessageProcessor();
         rp = new ReactionProcessor();
 

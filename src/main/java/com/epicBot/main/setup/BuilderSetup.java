@@ -12,7 +12,7 @@ public class BuilderSetup {
     public static JDA buildWithConfigs(String token){
         try {
             return JDABuilder.createDefault(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MESSAGE_REACTIONS)
-                    .setActivity(Activity.watching("Sam poop"))
+                    .setActivity(Activity.watching("Sam's beautiful eyes ❤️"))
                     .build().awaitReady();
         } catch (LoginException | InterruptedException e) {
             e.printStackTrace();

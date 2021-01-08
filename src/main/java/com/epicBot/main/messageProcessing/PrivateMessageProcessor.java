@@ -13,7 +13,7 @@ public class PrivateMessageProcessor {
         channel.sendMessage(
                 "Congrats! You found my hidden easter egg!\n" +
                         "Now right now it does nothing, but I may try to do something more with PMs in the future, so I made a framework for responding to them and felt it would be a waste not to use it.\n" +
-                        "For now, have some random ASCII art (also available through " + Main.gmp.getKey() + "ASCII):\n" +
+                        "For now, have some random ASCII art (also available through " + Main.key + "ASCII):\n" +
                         "```" + ASCIIart.getRandomArt() + "```"
         ).queue();
     }
