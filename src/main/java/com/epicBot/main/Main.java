@@ -1,5 +1,6 @@
 package com.epicBot.main;
 
+import com.epicBot.main.messageProcessing.commands.quote.QuoteLibrary;
 import com.epicBot.main.messageProcessing.guild.GuildMessageProcessor;
 import com.epicBot.main.messageProcessing.guild.ReactionProcessor;
 import com.epicBot.main.setup.BuilderSetup;
@@ -7,6 +8,7 @@ import com.epicBot.main.listeners.customEventListener;
 import com.epicBot.main.messageProcessing.*;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class Main {
 
@@ -40,5 +42,8 @@ public class Main {
             System.out.println("Successfully Logged in as " + jda.getSelfUser().getName());
         } else
             System.out.println("Failed to login");
+
+        QuoteLibrary.init(jda.getTextChannelById(797122724828807178L));
+
     }
 }
