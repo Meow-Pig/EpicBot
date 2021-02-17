@@ -2,6 +2,7 @@ package com.epicBot.main.messageProcessing.commands.quote;
 
 import com.epicBot.main.Main;
 import com.epicBot.main.messageProcessing.commands.Command;
+import com.epicBot.main.setup.Configs;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -62,7 +63,7 @@ public class QuoteCommand implements Command {
                             quote.setType(QuoteType.GAME);
                             break;
                         default:
-                            channel.sendMessage("Invalid use of the command. INVALID TYPE: "+l[1]+"\nUse "+ Main.key+"quote -h/-help for help").queue();
+                            channel.sendMessage("Invalid use of the command. INVALID TYPE: "+l[1]+"\nUse "+ Configs.key+"quote -h/-help for help").queue();
                             newQuote.set(false);
                     }
                     break;
@@ -87,7 +88,7 @@ public class QuoteCommand implements Command {
                     edit.set(true);
                     break;
                 default:
-                    channel.sendMessage("Invalid use of the command. INVALID ARG: "+l[0]+"\nUse "+ Main.key+"quote -h/-help for help").queue();
+                    channel.sendMessage("Invalid use of the command. INVALID ARG: "+l[0]+"\nUse "+ Configs.key+"quote -h/-help for help").queue();
                     newQuote.set(false);
             }
         });
@@ -96,7 +97,7 @@ public class QuoteCommand implements Command {
                 QuoteLibrary.addQuote(quote);
                 channel.sendMessage("Quote successfully added!").queue();
             } else {
-                channel.sendMessage("Invalid use of the command. MISSING QUOTE OR SPEAKER\nUse "+ Main.key+"quote -h/-help for help").queue();
+                channel.sendMessage("Invalid use of the command. MISSING QUOTE OR SPEAKER\nUse "+ Configs.key+"quote -h/-help for help").queue();
             }
         } if (edit.get()){
             QuoteLibrary.editQuote(editID.get(),quote);

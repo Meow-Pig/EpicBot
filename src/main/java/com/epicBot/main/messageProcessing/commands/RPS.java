@@ -1,6 +1,7 @@
 package com.epicBot.main.messageProcessing.commands;
 
 import com.epicBot.main.Main;
+import com.epicBot.main.setup.Configs;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -10,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 public class RPS implements Command {
 
-    private final String key = Main.key;
     private final Random rand = new Random();
 
     private enum opts {
@@ -75,7 +75,7 @@ public class RPS implements Command {
     }
 
     private void error(MessageChannel channel) {
-        channel.sendMessage("!rps is a command that lets you play rock paper scissors. Please use one of the 3 following formats:\n```"+key+"rps [YOUR CHOICE]\n"+key+"rps [\uD83E\uDEA8/\uD83D\uDCC4/✂️]\n"+key+"rps [R/P/S️]\n"+key+"rps [r/p/s️]``` where [] contain required arguments. \nNote that the paper is called \"page_facing_up\" in Discord.").queue();
+        channel.sendMessage(Configs.key +"rps is a command that lets you play rock paper scissors. Please use one of the 3 following formats:\n```"+Configs.key+"rps [YOUR CHOICE]\n"+Configs.key+"rps [\uD83E\uDEA8/\uD83D\uDCC4/✂️]\n"+Configs.key+"rps [R/P/S️]\n"+Configs.key+"rps [r/p/s️]``` where [] contain required arguments. \nNote that the paper is called \"page_facing_up\" in Discord.").queue();
     }
 
 }

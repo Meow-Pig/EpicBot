@@ -1,16 +1,20 @@
 package com.epicBot.main.messageProcessing.commands.quote;
 
+import com.epicBot.main.Main;
+import com.epicBot.main.setup.Configs;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageHistory;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class QuoteLibrary {
 
-    private static MessageChannel quoteChannel = null;
+    private static TextChannel quoteChannel = null;
 
     private static final ArrayList<Quote>   quoteList = new ArrayList<>();
     private static final ArrayList<Message> msgList   = new ArrayList<>();
@@ -35,8 +39,18 @@ public class QuoteLibrary {
         }
     }
 
-    public static void init(MessageChannel qChannel) {
-        quoteChannel = qChannel;
+    public static void init() {
+        AtomicLong id = new AtomicLong(-1L);
+        Main.jda.getCategoryById(Configs.botCategoryId).getChannels().forEach(guildChannel -> {
+            if (guildChannel.getName().equals("quotes")){
+                id.set(guildChannel.getIdLong());
+            }
+        });
+        if (id.get()!=-1L) {
+            quoteChannel = Main.jda.getTextChannelById(id.get());
+        } else {
+            quoteChannel = Main.jda.getTextChannelById(Main.jda.getCategoryById(Configs.botCategoryId).createTextChannel("quote").complete().getIdLong());
+        }
         updateLib();
     }
 

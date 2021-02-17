@@ -3,6 +3,7 @@ package com.epicBot.main.messageProcessing.guild;
 import com.epicBot.main.Main;
 import com.epicBot.main.messageProcessing.commands.*;
 import com.epicBot.main.messageProcessing.commands.quote.QuoteCommand;
+import com.epicBot.main.setup.Configs;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -82,7 +83,7 @@ public class GuildMessageProcessor {
                     shutdown.processCommand(event.getMessage(), channel, event);
                     break;
                 default:
-                    channel.sendMessage("That appears to be an invalid command. To view a list of commands, please use " + Main.key +"help").queue();
+                    channel.sendMessage("That appears to be an invalid command. To view a list of commands, please use " + Configs.key +"help").queue();
             }
         }
     }

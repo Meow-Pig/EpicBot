@@ -7,43 +7,41 @@ import com.epicBot.main.setup.BuilderSetup;
 import com.epicBot.main.listeners.customEventListener;
 import com.epicBot.main.messageProcessing.*;
 
+import com.epicBot.main.setup.Configs;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class Main {
 
     //Run like this:
-    //Main.java [token] [key]
-    //key is what will be used as a command prefix. like "/" or "!" or ">"
-    //token is the token for your bot
+    //Main.java [token]
+    //[token] the token for your bot
 
     //If you are using an ide like IntelliJ Eclipse or VScode there should be an option to set the arguments when you run it.
-    //Set the arguments parameter to "[token] [key]"
+    //Set the arguments parameter to "[token]"
 
     public static GuildMessageProcessor gmp;
     public static PrivateMessageProcessor pmp;
     public static ReactionProcessor rp;
 
-    public static String key;
+    public static JDA jda;
 
     public static void main(String[] args) {
 
-        key = args[1];
-
         //Create processors to deal with incoming events like messages and reactions
-        gmp = new GuildMessageProcessor(key);
+        gmp = new GuildMessageProcessor(Configs.key);
         pmp = new PrivateMessageProcessor();
         rp = new ReactionProcessor();
 
         //Create JDA
-        JDA jda = BuilderSetup.buildWithConfigs(args[0]);
+        jda = BuilderSetup.buildWithConfigs(args[0]);
         if (jda != null) {
             jda.addEventListener(new customEventListener(gmp, pmp, rp));
             System.out.println("Successfully Logged in as " + jda.getSelfUser().getName());
         } else
             System.out.println("Failed to login");
 
-        QuoteLibrary.init(jda.getTextChannelById(797122724828807178L));
+        QuoteLibrary.init();
 
     }
 }

@@ -3,19 +3,42 @@ package com.epicBot.main.messageProcessing;
 import com.epicBot.main.Main;
 import com.epicBot.main.assets.ASCIIart;
 
-import net.dv8tion.jda.api.entities.PrivateChannel;
+import com.epicBot.main.setup.Configs;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 public class PrivateMessageProcessor {
 
     public void process(MessageReceivedEvent event){
-        PrivateChannel channel = event.getPrivateChannel();
-        channel.sendMessage(
-                "Congrats! You found my hidden easter egg!\n" +
-                        "Now right now it does nothing, but I may try to do something more with PMs in the future, so I made a framework for responding to them and felt it would be a waste not to use it.\n" +
-                        "For now, have some random ASCII art (also available through " + Main.key + "ASCII):\n" +
-                        "```" + ASCIIart.getRandomArt() + "```"
-        ).queue();
+
+        Message message = event.getMessage();
+        TextChannel outChannel = getOutChannel(event.getAuthor());
+        String displayName = event.getAuthor().getName();
+
+        outChannel.sendMessage(displayName+": "+message.getContentDisplay()).queue();
+    }
+
+    public static TextChannel getOutChannel(User user){
+        String userName = user.getName().toLowerCase().replace(" ","-");
+
+        Category botCat = Main.jda.getCategoryById(Configs.botCategoryId);
+
+        AtomicLong id = new AtomicLong(-1L);
+        botCat.getChannels().forEach(guildChannel -> {
+            if (guildChannel.getName().equals("pm-"+userName)){
+                id.set(guildChannel.getIdLong());
+            }
+        });
+        if (id.get()!=-1L) {
+            return Main.jda.getTextChannelById(id.get());
+        } else {
+            TextChannel o = Main.jda.getTextChannelById(botCat.createTextChannel("pm-"+userName).complete().getIdLong());
+            o.createPermissionOverride(Main.jda.getRoleById(Configs.everyoneID)).setDeny(Permission.MESSAGE_WRITE).queue();
+            return o;
+        }
     }
 
 }
