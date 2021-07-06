@@ -9,7 +9,6 @@ import com.epicBot.main.messageProcessing.*;
 
 import com.epicBot.main.setup.Configs;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class Main {
 

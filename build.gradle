@@ -7,12 +7,13 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
     jcenter()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    //implementation 'com.discord4j:discord4j-core:3.1.1'
-    //implementation 'com.discord4j:discord4j-voice:3.1.1'
-    compile 'net.dv8tion:JDA:4.2.0_211'
+    implementation 'net.dv8tion:JDA:4.2.0_211'
+    implementation 'com.google.cloud:google-cloud-speech:1.22.6'
+    implementation 'com.google.cloud:google-cloud-texttospeech:1.0.2'
+    implementation 'com.github.wdavies973:VocalCord:2.3'
 }

@@ -45,10 +45,10 @@ public class customEventListener extends ListenerAdapter {
     }
 
     @Override
-    public void onGenericMessageReaction(GenericMessageReactionEvent event){
+    public void onGenericMessageReaction(GenericMessageReactionEvent event) {
         try {
             if (event.isFromGuild() && !event.getUser().isBot())
-                    rp.processReaction(event);
+                rp.processReaction(event);
         } catch (IllegalStateException e) {
             System.out.println("Reaction not in guild");
         }

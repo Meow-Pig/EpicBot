@@ -1,7 +1,6 @@
 package com.epicBot.main.setup;
 
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Category;
 
 public class Configs {
 
@@ -9,7 +8,7 @@ public class Configs {
     public static final String key = "!";
 
     //Activity to have the bot doing on startup.
-    public static final Activity startupActivity = Activity.watching("Sam's beautiful eyes ❤️");
+    public static final Activity startupActivity = Activity.listening("Coding Jams");
 
     //Category containing bot channels. This will store Quotes as well as PM interactions.
     //I recommend putting the bot channel there too.

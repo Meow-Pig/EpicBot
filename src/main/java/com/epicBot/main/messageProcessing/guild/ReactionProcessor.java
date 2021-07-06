@@ -23,7 +23,7 @@ public class ReactionProcessor {
 
             fields.forEach(f -> { m.getReactions().forEach(r ->{
                 if (r.getReactionEmote().getEmoji().equals(f.getName())) {
-                    eb.addField(r.getReactionEmote().getEmoji(), "**" + f.getValue().split(":")[0] + ":" + (r.getCount()-1) + "**", true);
+                    eb.addField(r.getReactionEmote().getEmoji(), f.getValue().split(":")[0] + ":" + (r.getCount()-1) + "**", true);
                 }
             });});
             m.editMessage(eb.build()).queue();

@@ -1,7 +1,8 @@
 package com.epicBot.main.messageProcessing.guild;
 
-import com.epicBot.main.Main;
 import com.epicBot.main.messageProcessing.commands.*;
+import com.epicBot.main.messageProcessing.commands.Audio.Disconnect;
+import com.epicBot.main.messageProcessing.commands.Audio.Say;
 import com.epicBot.main.messageProcessing.commands.quote.QuoteCommand;
 import com.epicBot.main.setup.Configs;
 import net.dv8tion.jda.api.entities.*;
@@ -22,6 +23,9 @@ public class GuildMessageProcessor {
     private final Echo         echo;
     private final QuoteCommand quoteCommand;
     private final Shutdown     shutdown;
+    private final Say say;
+    private final Disconnect disconnect;
+    private final Status status;
     public GuildMessageProcessor(String Key){
         //Initialize key
         key = Key;
@@ -34,6 +38,9 @@ public class GuildMessageProcessor {
         echo         = new Echo();
         quoteCommand = new QuoteCommand();
         shutdown     = new Shutdown();
+        say          = new Say();
+        disconnect   = new Disconnect();
+        status       = new Status();
     }
 
 
@@ -82,6 +89,15 @@ public class GuildMessageProcessor {
                 case "shutdown":
                     shutdown.processCommand(event.getMessage(), channel, event);
                     break;
+                case "say":
+                    say.processCommand(event.getMessage(), channel, event);
+                    break;
+                case "disconnect":
+                    disconnect.processCommand(event.getMessage(), channel, event);
+                    break;
+                case "status":
+                    status.processCommand(event.getMessage(), channel, event);
+                    break;
                 default:
                     channel.sendMessage("That appears to be an invalid command. To view a list of commands, please use " + Configs.key +"help").queue();
             }
@@ -94,9 +110,10 @@ public class GuildMessageProcessor {
         if (event.getMessage().isMentioned(event.getJDA().getSelfUser()) && !event.getMessage().mentionsEveryone()) {
             URL url;
             try {
-                url = new URL("https://api.kanye.rest/?format=text");
+                url = new URL("https://api.kanye.rest");
                 Scanner sc = new Scanner(url.openStream());
-                channel.sendMessage(sc.nextLine()).queue();
+                String msg = sc.nextLine();
+                channel.sendMessage(msg.substring(10,msg.length()-2)).queue();
                 sc.close();
             } catch (IOException e) {
                 event.getMessage().getChannel().sendMessage("(API down. Insert Kanye quote here)").queue();

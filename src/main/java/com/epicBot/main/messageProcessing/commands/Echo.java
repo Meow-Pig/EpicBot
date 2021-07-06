@@ -70,14 +70,15 @@ public class Echo implements Command {
                 case "dm":
                 case "pm":
                     try {
-                        User receiver = message.getJDA().retrieveUserById(arg[1].substring(arg[1].indexOf("!") + 1, arg[1].indexOf("!") + 19)).complete();
-                        if (receiver == null) throw new NullPointerException();
+                        User receiver = message.getJDA().retrieveUserById(arg[1].substring(arg[1].indexOf("<") + 2, arg[1].indexOf("<") + 20)).complete();
                         messageRecipient.set(receiver);
                     } catch (NullPointerException e){
                         System.out.println(e.toString());
-                        errors.add("Invalid pm recipient");
-                    } catch (IndexOutOfBoundsException e){
-                        errors.add("Missing pm argument");
+                        errors.add("Invalid pm recipient" + arg[1]);
+                    } catch (NumberFormatException e){
+                        errors.add("Invalid pm recipient: " + arg[1]);
+                    } catch (IndexOutOfBoundsException | IllegalArgumentException e){
+                        errors.add("Missing pm recipient");
                     }
                     break;
                 case "d":
@@ -110,7 +111,7 @@ public class Echo implements Command {
                 message.delete().queue();
             }
             if (messageRecipient.get() != null) {
-                TextChannel outChannel = PrivateMessageProcessor.getOutChannel(messageRecipient.get());
+                TextChannel outChannel = PrivateMessageProcessor.getOutChannelWithHistory(messageRecipient.get());
                 for (int i = 0; i < repeat.get(); i++) {
                     messageRecipient.get().openPrivateChannel().queue(c -> c.sendMessage(text.get()).queue(message1 -> {
                         outChannel.sendMessage(Main.jda.getSelfUser().getName()+": "+message1.getContentDisplay()).queue();
